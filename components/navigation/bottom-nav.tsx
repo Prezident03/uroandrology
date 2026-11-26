@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { LayoutDashboard, Layers, Menu, Search, Settings } from "lucide-react";
+import { Calculator, LayoutDashboard, Layers, Menu, Search } from "lucide-react";
 import { useI18n } from "@/lib/i18n/client";
 import { cn } from "@/lib/utils";
 import { isActivePath } from "./nav-items";
@@ -14,7 +14,7 @@ export function BottomNav({ onSearch, onMenu }: { onSearch: () => void; onMenu: 
   const links = [
     { path: "/dashboard", label: t("nav.dashboard"), icon: LayoutDashboard },
     { path: "/modules", label: t("nav.modulesShort"), icon: Layers },
-    { path: "/settings", label: t("nav.settings"), icon: Settings },
+    { path: "/tools", label: t("nav.toolsShort"), icon: Calculator },
   ];
   return (
     <nav

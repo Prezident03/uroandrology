@@ -1,0 +1,25 @@
+# Template only (files starting with "_" are ignored). Copy to iief-5.yaml or pedt.yaml.
+# Enter the licensed, validated wording exactly, for each language. Do not translate
+# questionnaire items yourself: use validated language versions.
+id: iief-5
+title: { uz: "...", en: "...", ru: "..." }
+source: reference-key            # citation for the questionnaire and its scoring bands
+licence: "Who granted permission, and when"
+status: draft
+# reviewedBy: Dr ...
+# reviewedAt: 2026-01-31
+instructions: { uz: "...", en: "...", ru: "..." }   # optional, e.g. recall period
+items:
+  - id: q1
+    text: { uz: "...", en: "...", ru: "..." }
+    options:
+      - score: 0                 # scores exactly as in the scoring manual
+        text: { uz: "...", en: "...", ru: "..." }
+      - score: 1
+        text: { uz: "...", en: "...", ru: "..." }
+bands:                           # must cover every possible total, without overlap
+  - min: 0
+    max: 0
+    label: { uz: "...", en: "...", ru: "..." }
+    tone: neutral                # success | info | warning | danger | neutral
+limitations: { uz: "...", en: "...", ru: "..." }   # optional

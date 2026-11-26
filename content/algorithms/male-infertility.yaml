@@ -1,0 +1,36 @@
+# Step structure from the project specification (section 9). Clinical detail,
+# decision criteria and citations are added by medical reviewers.
+id: male-infertility
+title: { uz: Erkaklar bepushtligi, en: Male infertility, ru: Мужское бесплодие }
+basis: specification
+status: requires-review
+nodes:
+  - id: initial-consultation
+    type: step
+    title: { uz: Dastlabki konsultatsiya, en: Initial consultation, ru: Первичная консультация }
+  - id: reproductive-history
+    type: step
+    title: { uz: Reproduktiv anamnez, en: Reproductive history, ru: Репродуктивный анамнез }
+  - id: physical-examination
+    type: step
+    title: { uz: Fizikal koʻrik, en: Physical examination, ru: Физикальное обследование }
+  - id: semen-analysis
+    type: step
+    title: { uz: Spermogramma, en: Semen analysis, ru: Анализ эякулята }
+  - id: repeat-analysis
+    type: step
+    requirement: conditional
+    title: { uz: Koʻrsatma boʻlsa takroriy tahlil, en: Repeat analysis when indicated, ru: Повторный анализ по показаниям }
+  - id: hormonal-assessment
+    type: step
+    requirement: conditional
+    title: { uz: Koʻrsatma boʻlsa gormonal baholash, en: Hormonal assessment when indicated, ru: Гормональная оценка по показаниям }
+  - id: further-investigations
+    type: step
+    title: { uz: Qoʻshimcha tekshiruvlar, en: Further investigations, ru: Дополнительные исследования }
+  - id: etiological-diagnosis
+    type: step
+    title: { uz: Etiologik tashxis, en: Etiological diagnosis, ru: Этиологический диагноз }
+  - id: management
+    type: end
+    title: { uz: Davolash taktikasi, en: Management, ru: Тактика ведения }

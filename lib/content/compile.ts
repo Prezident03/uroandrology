@@ -96,7 +96,7 @@ export function compileContent(opts: CompileOptions): CompileResult {
       for (const ref of parsed.data) {
         if (references[ref.key]) errors.push(`${rel(contentDir, refFile)}: duplicate reference key "${ref.key}"`);
         const verified = Boolean(ref.url && ref.lastVerified);
-        if (!verified) warnings.push(`reference "${ref.key}" has no official URL or verification date: shown as requiring review`);
+        if (!verified) warnings.push(`reference "${ref.key}" is missing an official URL or a verification date, so it is shown as requiring review`);
         references[ref.key] = { ...ref, verified };
       }
   }

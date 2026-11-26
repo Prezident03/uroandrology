@@ -1,0 +1,34 @@
+# Step structure from the project specification (section 9). Clinical detail,
+# decision criteria and citations are added by medical reviewers.
+id: hypogonadism
+title: { uz: Gipogonadizm, en: Hypogonadism, ru: Гипогонадизм }
+basis: specification
+status: requires-review
+nodes:
+  - id: symptoms
+    type: step
+    title: { uz: Simptomlar, en: Symptoms, ru: Симптомы }
+  - id: morning-total-testosterone
+    type: step
+    title: { uz: Ertalabki umumiy testosteron, en: Morning total testosterone, ru: Утренний общий тестостерон }
+  - id: repeat-testing
+    type: step
+    requirement: conditional
+    title: { uz: Past boʻlsa takroriy tekshiruv, en: Repeat testing if low, ru: Повторное исследование при низком уровне }
+  - id: lh-fsh
+    type: step
+    title: { uz: LH/FSH, en: LH/FSH, ru: ЛГ/ФСГ (LH/FSH) }
+  - id: classification
+    type: decision
+    title: { uz: Birlamchi yoki ikkilamchi gipogonadizm, en: Primary or secondary classification, ru: Первичный или вторичный гипогонадизм }
+    branches:
+      - label: { uz: Birlamchi, en: Primary, ru: Первичный }
+        to: additional-investigation
+      - label: { uz: Ikkilamchi, en: Secondary, ru: Вторичный }
+        to: additional-investigation
+  - id: additional-investigation
+    type: step
+    title: { uz: Qoʻshimcha tekshiruv, en: Additional investigation, ru: Дополнительное обследование }
+  - id: treatment-decision
+    type: end
+    title: { uz: Davolash qarori, en: Treatment decision, ru: Решение о лечении }

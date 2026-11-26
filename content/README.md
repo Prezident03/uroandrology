@@ -11,7 +11,10 @@ reaches the site. Changes are proposed as GitHub pull requests and reviewed ther
 | `modules/<module>/<section>.<uz\|en\|ru>.md` | One section in one language |
 | `modules/<module>/topics/<topic>.<uz\|en\|ru>.md` | A separate topic page (e.g. azoospermia) |
 | `guidelines/references.yaml` | The single citation registry (EAU, AUA, ASRM, WHO, ISSM, Endocrine Society) |
-| `reference-ranges/<id>.yaml` | Reference values, one file per source edition |
+| `reference-ranges/<id>.yaml` | Reference values, one file per source edition (`group: semen` feeds the semen interpreter) |
+| `questionnaires/<id>.yaml` | Licensed questionnaire text and scoring bands (`iief-5`, `pedt`) |
+| `interpretation/<id>.yaml` | Value bands for calculators (`bmi`) |
+| `algorithms/<id>.yaml` | Diagnostic pathways: steps, decisions, mandatory/optional/conditional, referral points |
 | `_templates/` | Copy-and-fill templates (ignored by the build) |
 
 Module and section names: see `lib/clinical/modules.ts` or the **Content status** page in the app.

@@ -1,0 +1,31 @@
+# Step structure from the project specification (section 9). Clinical detail,
+# decision criteria and citations are added by medical reviewers.
+id: erectile-dysfunction
+title: { uz: Erektil disfunksiya, en: Erectile dysfunction, ru: Эректильная дисфункция }
+basis: specification
+status: requires-review
+nodes:
+  - id: initial-assessment
+    type: step
+    title: { uz: Dastlabki baholash, en: Initial assessment, ru: Первичная оценка }
+  - id: sexual-history
+    type: step
+    title: { uz: Jinsiy anamnez, en: Sexual history, ru: Сексуальный анамнез }
+  - id: medical-history
+    type: step
+    title: { uz: Tibbiy anamnez, en: Medical history, ru: Медицинский анамнез }
+  - id: physical-examination
+    type: step
+    title: { uz: Fizikal koʻrik, en: Physical examination, ru: Физикальное обследование }
+  - id: cardiometabolic-risk
+    type: step
+    title: { uz: Kardiometabolik xavfni baholash, en: Cardiometabolic risk assessment, ru: Оценка кардиометаболического риска }
+  - id: laboratory-testing
+    type: step
+    title: { uz: Laborator tekshiruvlar, en: Laboratory testing, ru: Лабораторные исследования }
+  - id: etiological-classification
+    type: step
+    title: { uz: Etiologik tasnif, en: Etiological classification, ru: Этиологическая классификация }
+  - id: individualized-management
+    type: end
+    title: { uz: Individual davolash, en: Individualised management, ru: Индивидуальная тактика ведения }

@@ -1,4 +1,4 @@
-import { BookOpen, Calculator, GitBranch, Layers, LayoutDashboard, Settings, ShieldCheck, Stethoscope, type LucideIcon } from "lucide-react";
+import { BookOpen, Calculator, ClipboardList, GitBranch, Layers, LayoutDashboard, Settings, ShieldCheck, Stethoscope, type LucideIcon } from "lucide-react";
 import type { MessageKey } from "@/lib/i18n/translate";
 
 export interface NavItem {
@@ -13,8 +13,9 @@ export interface NavItem {
 export const primaryNav: NavItem[] = [
   { labelKey: "nav.dashboard", icon: LayoutDashboard, path: "/dashboard" },
   { labelKey: "nav.modules", icon: Layers, path: "/modules" },
-  { labelKey: "nav.tools", icon: Calculator, plannedPhase: 4 },
-  { labelKey: "nav.algorithms", icon: GitBranch, plannedPhase: 4 },
+  { labelKey: "nav.assessment", icon: ClipboardList, path: "/assessment" },
+  { labelKey: "nav.tools", icon: Calculator, path: "/tools" },
+  { labelKey: "nav.algorithms", icon: GitBranch, path: "/algorithms" },
   { labelKey: "nav.guidelines", icon: BookOpen, plannedPhase: 5 },
   { labelKey: "nav.cases", icon: Stethoscope, plannedPhase: 5 },
 ];

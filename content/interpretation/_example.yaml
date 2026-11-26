@@ -1,0 +1,11 @@
+# Template only. Copy to bmi.yaml to enable BMI categories.
+id: bmi
+title: { uz: "...", en: "...", ru: "..." }
+source: reference-key
+unit: kg/m²
+status: draft
+bands:
+  - min: 0
+    max: 0
+    label: { uz: "...", en: "...", ru: "..." }
+    tone: neutral
