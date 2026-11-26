@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { ContentPage } from "@/components/clinical/content-page";
-import { clinicalModules, getModule } from "@/lib/clinical/modules";
+import { TestosteroneFertilityRule } from "@/components/clinical/safety-rule";
+import { clinicalModules, getModule, testosteroneFertilityRulePages } from "@/lib/clinical/modules";
 import { getTopicContent } from "@/lib/content";
 import { getLocale, getTranslator } from "@/lib/i18n/server";
 import type { TopicId } from "@/types/clinical/module";
@@ -50,6 +51,7 @@ export default async function TopicPage({ params }: Props) {
       next={i < group.ids.length - 1 ? link(group.ids[i + 1]) : undefined}
       outline={group.ids.map(link)}
       outlineTitle={t("content.topicsTitle")}
+      notice={testosteroneFertilityRulePages.has(`${m.id}/${topic}`) ? <TestosteroneFertilityRule t={t} /> : undefined}
       activeHref={`${base}/topics/${topic}`}
     />
   );

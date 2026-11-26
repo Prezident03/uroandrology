@@ -60,6 +60,25 @@ export const clinicalModules: ClinicalModuleDefinition[] = [
       "treatment",
       "follow-up",
     ],
+    topics: [
+      {
+        section: "etiology",
+        ids: ["psychogenic-vs-organic", "vascular-factors", "endocrine-factors", "neurological-factors", "medication-related-ed"],
+      },
+      { section: "medical-history", ids: ["iief-5"] },
+      {
+        section: "treatment",
+        ids: [
+          "lifestyle-modifications",
+          "pde5-inhibitors",
+          "testosterone-therapy",
+          "vacuum-devices",
+          "intracavernosal-therapy",
+          "surgical-treatment",
+          "contraindications-interactions",
+        ],
+      },
+    ],
   },
   {
     id: "premature-ejaculation",
@@ -76,6 +95,10 @@ export const clinicalModules: ClinicalModuleDefinition[] = [
       "differential-diagnosis",
       "treatment",
       "follow-up",
+    ],
+    topics: [
+      { section: "diagnostic-criteria", ids: ["ielt", "ejaculatory-control", "patient-distress", "partner-impact"] },
+      { section: "differential-diagnosis", ids: ["associated-ed"] },
     ],
   },
   {
@@ -94,6 +117,25 @@ export const clinicalModules: ClinicalModuleDefinition[] = [
       "differential-diagnosis",
       "treatment",
       "follow-up",
+    ],
+    topics: [
+      {
+        section: "hormonal-diagnostics",
+        ids: [
+          "total-testosterone",
+          "free-testosterone",
+          "shbg",
+          "lh",
+          "fsh",
+          "prolactin",
+          "estradiol",
+          "tsh",
+          "morning-sampling",
+          "repeat-confirmation",
+        ],
+      },
+      { section: "differential-diagnosis", ids: ["primary-vs-secondary", "pituitary-investigation"] },
+      { section: "treatment", ids: ["fertility-implications"] },
     ],
   },
   {
@@ -122,6 +164,21 @@ export function getModule(id: string): ClinicalModuleDefinition | undefined {
 export function isModuleId(id: string): id is ModuleId {
   return moduleIds.includes(id as ModuleId);
 }
+
+/**
+ * Pages that must carry the testosterone/fertility safety rule from the
+ * master specification (Module 04): testosterone replacement is never
+ * presented as routine treatment for men actively seeking fertility.
+ */
+export const testosteroneFertilityRulePages = new Set([
+  "male-infertility/treatment",
+  "hypogonadism/treatment",
+  "hypogonadism/fertility-implications",
+  "erectile-dysfunction/testosterone-therapy",
+]);
+
+/** Clinical assessment integrates the other modules (spec, Module 05). */
+export const integratedModuleIds = ["male-infertility", "erectile-dysfunction", "premature-ejaculation", "hypogonadism"] as const;
 
 export function getModuleTopics(m: ClinicalModuleDefinition): string[] {
   return m.topics?.flatMap((t) => t.ids) ?? [];

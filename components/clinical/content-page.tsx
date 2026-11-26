@@ -27,6 +27,7 @@ export function ContentPage({
   outline,
   outlineTitle,
   activeHref,
+  notice,
 }: {
   t: Translator;
   title: string;
@@ -39,6 +40,8 @@ export function ContentPage({
   outline: PageLink[];
   outlineTitle: string;
   activeHref: string;
+  /** Fixed safety notice shown above the content, whatever its review status. */
+  notice?: ReactNode;
 }) {
   const { entry, otherLocales } = lookup;
   return (
@@ -52,6 +55,8 @@ export function ContentPage({
           <h1 className="text-2xl font-semibold tracking-tight sm:text-3xl">{entry?.title ?? title}</h1>
           {entry && <ContentMeta entry={entry} t={t} />}
         </header>
+
+        {notice}
 
         {entry ? (
           <ContentBody html={entry.html} />

@@ -7,7 +7,7 @@ import { ModuleIcon } from "@/components/clinical/module-icon";
 import { RecordRecent } from "@/components/clinical/record-recent";
 import { StatusBadge } from "@/components/clinical/status-badge";
 import { PageHeader } from "@/components/common/page-header";
-import { clinicalModules, getModule } from "@/lib/clinical/modules";
+import { clinicalModules, getModule, integratedModuleIds } from "@/lib/clinical/modules";
 import { getSectionContent, getTopicContent } from "@/lib/content";
 import { getLocale, getTranslator } from "@/lib/i18n/server";
 
@@ -47,6 +47,26 @@ export default async function ModulePage({ params }: PageProps<"/[locale]/module
         description={t(`modules.${m.id}.description`)}
         actions={<BookmarkButton moduleId={m.id} />}
       />
+
+      {m.id === "clinical-assessment" && (
+        <section aria-labelledby="related-heading" className="rounded-card border border-border bg-background-subtle p-5">
+          <h2 id="related-heading" className="font-semibold">{t("content.relatedModulesTitle")}</h2>
+          <p className="mt-1 text-sm text-muted">{t("content.relatedModulesText")}</p>
+          <ul className="mt-4 grid gap-2 sm:grid-cols-2">
+            {integratedModuleIds.map((rid) => {
+              const rm = getModule(rid)!;
+              return (
+                <li key={rid}>
+                  <Link href={`/${locale}/modules/${rid}`} className="flex min-h-12 items-center gap-3 rounded-card border border-border bg-card px-4 text-sm font-medium hover:border-primary/40">
+                    <ModuleIcon name={rm.icon} className="size-4 shrink-0 text-primary" />
+                    {t(`modules.${rid}.title`)}
+                  </Link>
+                </li>
+              );
+            })}
+          </ul>
+        </section>
+      )}
 
       <section aria-labelledby="sections-heading">
         <h2 id="sections-heading" className="mb-3 text-lg font-semibold">{t("modules.sectionsTitle")}</h2>

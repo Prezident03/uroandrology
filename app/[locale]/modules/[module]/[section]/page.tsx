@@ -3,7 +3,8 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ContentPage } from "@/components/clinical/content-page";
 import { SemenParameters } from "@/components/clinical/semen-parameters";
-import { clinicalModules, getModule } from "@/lib/clinical/modules";
+import { TestosteroneFertilityRule } from "@/components/clinical/safety-rule";
+import { clinicalModules, getModule, testosteroneFertilityRulePages } from "@/lib/clinical/modules";
 import { getSectionContent } from "@/lib/content";
 import { getLocale, getTranslator } from "@/lib/i18n/server";
 import type { SectionId } from "@/types/clinical/module";
@@ -50,6 +51,7 @@ export default async function SectionPage({ params }: Props) {
       next={i < m.sections.length - 1 ? link(m.sections[i + 1]) : undefined}
       outline={m.sections.map(link)}
       outlineTitle={t("modules.sectionsTitle")}
+      notice={testosteroneFertilityRulePages.has(`${m.id}/${section}`) ? <TestosteroneFertilityRule t={t} /> : undefined}
       activeHref={`${base}/${section}`}
       extra={
         <>
