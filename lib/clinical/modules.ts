@@ -27,6 +27,20 @@ export const clinicalModules: ClinicalModuleDefinition[] = [
       "clinical-cases",
       "references",
     ],
+    topics: [
+      {
+        section: "semen-analysis",
+        ids: [
+          "azoospermia",
+          "oligozoospermia",
+          "asthenozoospermia",
+          "teratozoospermia",
+          "oligoasthenoteratozoospermia",
+          "necrozoospermia",
+          "leukocytospermia",
+        ],
+      },
+    ],
   },
   {
     id: "erectile-dysfunction",
@@ -108,3 +122,26 @@ export function getModule(id: string): ClinicalModuleDefinition | undefined {
 export function isModuleId(id: string): id is ModuleId {
   return moduleIds.includes(id as ModuleId);
 }
+
+export function getModuleTopics(m: ClinicalModuleDefinition): string[] {
+  return m.topics?.flatMap((t) => t.ids) ?? [];
+}
+
+/**
+ * Semen analysis parameters the interpreter and reference tables cover
+ * (spec section 6, Module 01). Values come only from reviewed datasets.
+ */
+export const semenParameterIds = [
+  "volume",
+  "concentration",
+  "total-number",
+  "total-motility",
+  "progressive-motility",
+  "non-progressive-motility",
+  "immotile",
+  "morphology",
+  "vitality",
+  "ph",
+  "leukocytes",
+  "agglutination",
+] as const;

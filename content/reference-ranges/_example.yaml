@@ -1,0 +1,15 @@
+# Template only (files starting with "_" are ignored).
+# Copy to <id>.yaml. Enter values exactly as published in the cited source.
+id: dataset-id
+title: { uz: "...", en: "...", ru: "..." }
+source: reference-key          # must exist in guidelines/references.yaml
+edition: "..."                 # e.g. edition and year of the source document
+status: draft
+# reviewedBy: Dr ...
+# reviewedAt: 2026-01-31
+parameters:
+  - id: volume                 # see semenParameterIds in lib/clinical/modules.ts
+    label: { uz: "...", en: "...", ru: "..." }
+    unit: "..."
+    # lowerLimit: <number from the source>
+    # upperLimit: <number from the source>

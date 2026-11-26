@@ -1,13 +1,14 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import { notFound } from "next/navigation";
-import { ChevronDown } from "lucide-react";
+import { ChevronRight } from "lucide-react";
 import { BookmarkButton } from "@/components/clinical/bookmark-button";
-import { PendingReviewNotice } from "@/components/clinical/content-status";
 import { ModuleIcon } from "@/components/clinical/module-icon";
 import { RecordRecent } from "@/components/clinical/record-recent";
+import { StatusBadge } from "@/components/clinical/status-badge";
 import { PageHeader } from "@/components/common/page-header";
-import { Badge } from "@/components/ui/badge";
 import { clinicalModules, getModule } from "@/lib/clinical/modules";
+import { getSectionContent, getTopicContent } from "@/lib/content";
 import { getLocale, getTranslator } from "@/lib/i18n/server";
 
 export function generateStaticParams() {
@@ -22,71 +23,62 @@ export async function generateMetadata({ params }: PageProps<"/[locale]/modules/
   return { title: t(`modules.${m.id}.title`), description: t(`modules.${m.id}.description`) };
 }
 
+const row =
+  "flex min-h-14 items-center gap-3 rounded-card border border-border bg-card px-4 py-3 transition-colors hover:border-primary/40";
+
 export default async function ModulePage({ params }: PageProps<"/[locale]/modules/[module]">) {
   const { module: id } = await params;
   const m = getModule(id);
   if (!m) notFound();
   const locale = await getLocale();
   const t = await getTranslator(locale);
+  const base = `/${locale}/modules/${m.id}`;
 
   return (
-    <div className="mx-auto flex max-w-7xl gap-8">
+    <div className="mx-auto max-w-4xl space-y-6">
       <RecordRecent moduleId={m.id} />
-      <article className="min-w-0 flex-1 space-y-6">
-        <PageHeader
-          eyebrow={
-            <span className="mb-3 inline-grid size-11 place-items-center rounded-lg border border-primary/30 bg-primary/10 text-primary">
-              <ModuleIcon name={m.icon} className="size-5" />
-            </span>
-          }
-          title={t(`modules.${m.id}.title`)}
-          description={t(`modules.${m.id}.description`)}
-          actions={<BookmarkButton moduleId={m.id} />}
-        />
-
-        <div className="flex flex-wrap items-center gap-2 text-xs text-muted">
-          <Badge tone="warning">{t("status.moduleStatus")}</Badge>
-          <span>
-            {t("status.version")}: {t("status.notPublished")}
+      <PageHeader
+        eyebrow={
+          <span className="mb-3 inline-grid size-11 place-items-center rounded-lg border border-primary/30 bg-primary/10 text-primary">
+            <ModuleIcon name={m.icon} className="size-5" />
           </span>
-        </div>
+        }
+        title={t(`modules.${m.id}.title`)}
+        description={t(`modules.${m.id}.description`)}
+        actions={<BookmarkButton moduleId={m.id} />}
+      />
 
-        <section aria-labelledby="sections-heading" className="max-w-reading">
-          <h2 id="sections-heading" className="sr-only">{t("modules.sectionsTitle")}</h2>
-          <ol className="space-y-3">
-            {m.sections.map((s, i) => (
+      <section aria-labelledby="sections-heading">
+        <h2 id="sections-heading" className="mb-3 text-lg font-semibold">{t("modules.sectionsTitle")}</h2>
+        <ol className="space-y-2">
+          {m.sections.map((s, i) => {
+            const topics = m.topics?.find((g) => g.section === s)?.ids ?? [];
+            return (
               <li key={s} id={s} className="scroll-mt-24">
-                <details className="group rounded-card border border-border bg-card open:border-primary/30">
-                  <summary className="flex min-h-14 cursor-pointer list-none items-center gap-3 px-4 py-3 [&::-webkit-details-marker]:hidden">
-                    <span className="w-6 shrink-0 font-mono text-xs text-muted">{String(i + 1).padStart(2, "0")}</span>
-                    <span className="min-w-0 flex-1 font-medium">{t(`sections.${s}`)}</span>
-                    <Badge tone="warning" className="hidden sm:inline-flex">{t("status.pendingReview")}</Badge>
-                    <ChevronDown aria-hidden="true" className="size-5 shrink-0 text-muted transition-transform group-open:rotate-180" />
-                  </summary>
-                  <div className="px-4 pb-4">
-                    <PendingReviewNotice title={t("status.pendingReview")}>{t("status.pendingReviewText")}</PendingReviewNotice>
-                  </div>
-                </details>
+                <Link href={`${base}/${s}`} className={row}>
+                  <span className="w-6 shrink-0 font-mono text-xs text-muted">{String(i + 1).padStart(2, "0")}</span>
+                  <span className="min-w-0 flex-1 font-medium">{t(`sections.${s}`)}</span>
+                  <StatusBadge status={getSectionContent(m.id, s, locale).entry?.status} t={t} className="hidden sm:inline-flex" />
+                  <ChevronRight aria-hidden="true" className="size-5 shrink-0 text-muted" />
+                </Link>
+                {topics.length > 0 && (
+                  <ul aria-label={t("content.topicsTitle")} className="ml-6 mt-2 space-y-2 border-l border-border pl-4">
+                    {topics.map((topic) => (
+                      <li key={topic}>
+                        <Link href={`${base}/topics/${topic}`} className={`${row} min-h-12 py-2 text-sm`}>
+                          <span className="min-w-0 flex-1">{t(`topics.${topic}`)}</span>
+                          <StatusBadge status={getTopicContent(m.id, topic, locale).entry?.status} t={t} className="hidden sm:inline-flex" />
+                          <ChevronRight aria-hidden="true" className="size-4 shrink-0 text-muted" />
+                        </Link>
+                      </li>
+                    ))}
+                  </ul>
+                )}
               </li>
-            ))}
-          </ol>
-        </section>
-      </article>
-
-      <aside className="sticky top-24 hidden h-fit w-72 shrink-0 xl:block" aria-labelledby="outline-heading">
-        <h2 id="outline-heading" className="mb-3 text-xs font-semibold uppercase tracking-wider text-muted">
-          {t("modules.sectionsTitle")}
-        </h2>
-        <ol className="space-y-0.5 border-l border-border">
-          {m.sections.map((s) => (
-            <li key={s}>
-              <a href={`#${s}`} className="-ml-px block border-l border-transparent py-1.5 pl-4 text-sm text-muted hover:border-primary hover:text-foreground">
-                {t(`sections.${s}`)}
-              </a>
-            </li>
-          ))}
+            );
+          })}
         </ol>
-      </aside>
+      </section>
     </div>
   );
 }

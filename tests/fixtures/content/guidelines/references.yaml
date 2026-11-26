@@ -1,0 +1,11 @@
+# TEST FIXTURE ONLY: not a real citation.
+- key: test-guideline
+  organization: Other
+  title: Test guideline document
+  year: 2000
+  url: https://example.org/test
+  lastVerified: 2026-01-01
+- key: test-unverified
+  organization: Other
+  title: Unverified test document
+  year: 2000

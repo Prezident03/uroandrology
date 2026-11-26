@@ -33,12 +33,26 @@ export function buildSearchIndex(locale: string, t: Translator): SearchEntry[] {
         kind: "section",
         title,
         context: moduleTitle,
-        href: `${moduleHref}#${s}`,
+        href: `${moduleHref}/${s}`,
         icon: m.icon,
         haystack: normalizeForSearch(`${title} ${moduleTitle}`),
       };
     });
-    return [entry, ...sections];
+    const topics = (m.topics ?? []).flatMap((g) =>
+      g.ids.map<SearchEntry>((id) => {
+        const title = t(`topics.${id}`);
+        return {
+          id: `${m.id}/topics/${id}`,
+          kind: "section",
+          title,
+          context: `${moduleTitle} · ${t(`sections.${g.section}`)}`,
+          href: `${moduleHref}/topics/${id}`,
+          icon: m.icon,
+          haystack: normalizeForSearch(`${title} ${moduleTitle}`),
+        };
+      }),
+    );
+    return [entry, ...sections, ...topics];
   });
 }
 

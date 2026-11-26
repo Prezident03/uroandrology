@@ -1,0 +1,11 @@
+# TEST FIXTURE ONLY: values are placeholders for tests, not clinical limits.
+id: test-dataset
+title: { uz: Test, en: Test, ru: Test }
+source: test-guideline
+edition: test
+status: draft
+parameters:
+  - id: alpha
+    label: { uz: Alfa, en: Alpha, ru: Альфа }
+    unit: unit
+    lowerLimit: 1
