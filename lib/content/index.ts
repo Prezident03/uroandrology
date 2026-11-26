@@ -1,7 +1,7 @@
 import "server-only";
 import data from "@/.content/bundle.json";
 import { locales, type Locale } from "@/lib/i18n/config";
-import type { CompiledEntry, CompiledReference, ContentBundle, ContentStatusValue, RangeDataset } from "./schema";
+import type { Algorithm, CompiledEntry, CompiledReference, ContentBundle, ContentStatusValue, Interpretation, Questionnaire, RangeDataset } from "./schema";
 
 /** Compiled by scripts/build-content.ts before every dev/build run. */
 const bundle = data as unknown as ContentBundle;
@@ -39,3 +39,10 @@ export function getRangeDataset(id: string): RangeDataset | undefined {
 }
 
 export const isPreviewBuild = bundle.preview;
+
+export const getQuestionnaire = (id: string): Questionnaire | undefined => bundle.questionnaires[id];
+export const getInterpretation = (id: string): Interpretation | undefined => bundle.interpretations[id];
+export const getAlgorithm = (id: string): Algorithm | undefined => bundle.algorithms[id];
+export const listAlgorithms = (): Algorithm[] => Object.values(bundle.algorithms);
+export const listRangeDatasets = (group?: RangeDataset["group"]): RangeDataset[] =>
+  Object.values(bundle.rangeDatasets).filter((d) => !group || d.group === group);

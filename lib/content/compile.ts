@@ -23,6 +23,13 @@ import type { ElementContent } from "hast";
 import { clinicalModules, getModuleTopics } from "@/lib/clinical/modules";
 import type { Messages } from "@/lib/i18n/translate";
 import {
+  algorithmSchema,
+  interpretationSchema,
+  questionnaireSchema,
+  type Algorithm,
+  type Band,
+  type Interpretation,
+  type Questionnaire,
   frontMatterSchema,
   rangeDatasetSchema,
   referenceFileSchema,
@@ -114,6 +121,77 @@ export function compileContent(opts: CompileOptions): CompileResult {
     }
   }
 
+  // 2b. Questionnaires, interpretation bands and algorithms
+  const visibleStatus = (status: string) => preview || status === "approved" || status === "requires-review";
+  const loadDir = <T extends { id: string; status: string }>(
+    dirName: string,
+    schema: { safeParse: (v: unknown) => { success: true; data: T } | { success: false; error: { issues: { path: PropertyKey[]; message: string }[] } } },
+    check: (item: T, where: string) => void,
+  ): Record<string, T> => {
+    const out: Record<string, T> = {};
+    const dir = path.join(contentDir, dirName);
+    if (!fs.existsSync(dir)) return out;
+    for (const name of fs.readdirSync(dir).filter((n) => n.endsWith(".yaml") && !n.startsWith("_"))) {
+      const file = path.join(dir, name);
+      const where = rel(contentDir, file);
+      const parsed = schema.safeParse(readYaml(file));
+      if (!parsed.success) {
+        errors.push(...zodIssues(where, parsed.error));
+        continue;
+      }
+      const item = parsed.data;
+      if (`${item.id}.yaml` !== name) errors.push(`${where}: id "${item.id}" must match the file name`);
+      const reviewed = item as unknown as { status: string; reviewedBy?: string; reviewedAt?: string };
+      if (reviewed.status === "approved" && (!reviewed.reviewedBy || !reviewed.reviewedAt))
+        errors.push(`${where}: approved files need reviewedBy and reviewedAt`);
+      check(item, where);
+      if (visibleStatus(item.status)) out[item.id] = item;
+    }
+    return out;
+  };
+  const checkRef = (key: string, where: string) => {
+    if (!references[key]) errors.push(`${where}: unknown reference "${key}"`);
+  };
+  const checkBands = (bands: Band[], where: string) => {
+    const sorted = [...bands].sort((a, b) => a.min - b.min);
+    sorted.forEach((b, i) => {
+      if (b.min > b.max) errors.push(`${where}: band ${b.min}–${b.max} has min above max`);
+      const next = sorted[i + 1];
+      if (next && next.min <= b.max) errors.push(`${where}: bands ${b.min}–${b.max} and ${next.min}–${next.max} overlap`);
+    });
+  };
+
+  const questionnaires = loadDir<Questionnaire>("questionnaires", questionnaireSchema, (q, where) => {
+    checkRef(q.source, where);
+    checkBands(q.bands, where);
+    const ids = new Set<string>();
+    for (const item of q.items) {
+      if (ids.has(item.id)) errors.push(`${where}: duplicate item id "${item.id}"`);
+      ids.add(item.id);
+    }
+    const min = q.items.reduce((n, i) => n + Math.min(...i.options.map((o) => o.score)), 0);
+    const max = q.items.reduce((n, i) => n + Math.max(...i.options.map((o) => o.score)), 0);
+    const covered = (v: number) => q.bands.some((b) => v >= b.min && v <= b.max);
+    if (!covered(min) || !covered(max)) errors.push(`${where}: bands must cover the full score range ${min}–${max}`);
+  });
+
+  const interpretations = loadDir<Interpretation>("interpretation", interpretationSchema, (it, where) => {
+    checkRef(it.source, where);
+    checkBands(it.bands, where);
+  });
+
+  const algorithms = loadDir<Algorithm>("algorithms", algorithmSchema, (a, where) => {
+    a.references.forEach((r) => checkRef(r, where));
+    const ids = new Set(a.nodes.map((n) => n.id));
+    if (ids.size !== a.nodes.length) errors.push(`${where}: node ids must be unique`);
+    for (const n of a.nodes) {
+      n.references?.forEach((r) => checkRef(r, `${where} (${n.id})`));
+      if (n.type === "decision" && (n.branches?.length ?? 0) < 2) errors.push(`${where}: decision "${n.id}" needs at least two branches`);
+      for (const b of n.branches ?? []) if (!ids.has(b.to)) errors.push(`${where}: branch of "${n.id}" points to unknown node "${b.to}"`);
+    }
+    if (a.basis === "guideline" && a.references.length === 0) errors.push(`${where}: guideline-based algorithms need references`);
+  });
+
   // 3. Module content files
   const sections: ContentBundle["sections"] = {};
   const topics: ContentBundle["topics"] = {};
@@ -168,7 +246,19 @@ export function compileContent(opts: CompileOptions): CompileResult {
   }
 
   return {
-    bundle: { generatedAt: new Date().toISOString(), preview, sections, topics, statusIndex, references, rangeDatasets, warnings },
+    bundle: {
+      generatedAt: new Date().toISOString(),
+      preview,
+      sections,
+      topics,
+      statusIndex,
+      references,
+      rangeDatasets,
+      questionnaires,
+      interpretations,
+      algorithms,
+      warnings,
+    },
     errors,
   };
 }

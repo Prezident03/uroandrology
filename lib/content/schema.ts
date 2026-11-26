@@ -19,7 +19,8 @@ export const referenceSchema = z
     key: refKey,
     organization: organizationSchema,
     title: z.string().min(3),
-    year: z.number().int().min(1900).max(2100),
+    /** Optional for living online guidelines whose version year is recorded at verification. */
+    year: z.number().int().min(1900).max(2100).optional(),
     edition: z.string().optional(),
     chapter: z.string().optional(),
     recommendation: z.string().optional(),
@@ -53,6 +54,11 @@ export const frontMatterSchema = z
 export type FrontMatter = z.infer<typeof frontMatterSchema>;
 
 const localizedText = z.object({ uz: z.string(), en: z.string(), ru: z.string() }).strict();
+const reviewFields = {
+  status: contentStatusSchema,
+  reviewedBy: z.string().optional(),
+  reviewedAt: isoDate.optional(),
+};
 
 /** content/reference-ranges/<id>.yaml: one dataset per source edition. */
 export const rangeDatasetSchema = z
@@ -61,9 +67,9 @@ export const rangeDatasetSchema = z
     title: localizedText,
     source: refKey,
     edition: z.string(),
-    status: contentStatusSchema,
-    reviewedBy: z.string().optional(),
-    reviewedAt: isoDate.optional(),
+    /** Which tool may use the dataset; the semen interpreter reads "semen" datasets. */
+    group: z.enum(["semen", "hormone", "other"]).default("other"),
+    ...reviewFields,
     parameters: z
       .array(
         z
@@ -81,6 +87,86 @@ export const rangeDatasetSchema = z
   })
   .strict();
 
+/** A score or value band with its interpretation, e.g. a questionnaire severity band. */
+export const bandSchema = z
+  .object({
+    min: z.number(),
+    max: z.number(),
+    label: localizedText,
+    tone: z.enum(["success", "info", "warning", "danger", "neutral"]).default("neutral"),
+  })
+  .strict();
+
+/** content/questionnaires/<id>.yaml: licensed, validated questionnaire text per language. */
+export const questionnaireSchema = z
+  .object({
+    id: refKey,
+    title: localizedText,
+    source: refKey,
+    licence: z.string().min(3),
+    ...reviewFields,
+    instructions: localizedText.partial().optional(),
+    items: z
+      .array(
+        z
+          .object({
+            id: z.string(),
+            text: localizedText,
+            options: z.array(z.object({ score: z.number(), text: localizedText }).strict()).min(2),
+          })
+          .strict(),
+      )
+      .min(1),
+    bands: z.array(bandSchema).min(1),
+    limitations: localizedText.partial().optional(),
+  })
+  .strict();
+
+/** content/interpretation/<id>.yaml: value bands for a calculator (e.g. BMI categories). */
+export const interpretationSchema = z
+  .object({
+    id: refKey,
+    title: localizedText,
+    source: refKey,
+    unit: z.string(),
+    ...reviewFields,
+    bands: z.array(bandSchema).min(1),
+  })
+  .strict();
+
+/** content/algorithms/<id>.yaml: a diagnostic pathway as data. */
+export const algorithmSchema = z
+  .object({
+    id: refKey,
+    title: localizedText,
+    /** "specification": step structure taken from the project specification, clinical detail pending. */
+    basis: z.enum(["specification", "guideline"]),
+    ...reviewFields,
+    references: z.array(refKey).default([]),
+    nodes: z
+      .array(
+        z
+          .object({
+            id: z.string().regex(/^[a-z0-9-]+$/),
+            type: z.enum(["step", "decision", "end"]),
+            title: localizedText,
+            detail: localizedText.partial().optional(),
+            requirement: z.enum(["mandatory", "optional", "conditional"]).optional(),
+            referral: z.boolean().optional(),
+            branches: z.array(z.object({ label: localizedText, to: z.string() }).strict()).optional(),
+            references: z.array(refKey).optional(),
+          })
+          .strict(),
+      )
+      .min(2),
+  })
+  .strict();
+
+export type Band = z.infer<typeof bandSchema>;
+export type Questionnaire = z.infer<typeof questionnaireSchema>;
+export type Interpretation = z.infer<typeof interpretationSchema>;
+export type Algorithm = z.infer<typeof algorithmSchema>;
+export type LocalizedText = z.infer<typeof localizedText>;
 export type Reference = z.infer<typeof referenceSchema>;
 export type RangeDataset = z.infer<typeof rangeDatasetSchema>;
 export type ContentLocale = z.infer<typeof localeSchema>;
@@ -121,5 +207,8 @@ export interface ContentBundle {
   statusIndex: Record<string, Partial<Record<ContentLocale, ContentStatusValue>>>;
   references: Record<string, CompiledReference>;
   rangeDatasets: Record<string, RangeDataset>;
+  questionnaires: Record<string, Questionnaire>;
+  interpretations: Record<string, Interpretation>;
+  algorithms: Record<string, Algorithm>;
   warnings: string[];
 }

@@ -1,1 +1,22 @@
-[]
+# Citation registry. See content/README.md.
+# lastVerified is filled in only after a person has checked the source.
+
+- key: who-semen-2021
+  organization: WHO
+  title: WHO laboratory manual for the examination and processing of human semen
+  year: 2021
+  edition: 6th edition
+  url: https://www.who.int/publications/i/item/9789240030787
+
+- key: eau-male-infertility
+  organization: EAU
+  title: EAU Guidelines on Sexual and Reproductive Health — Male Infertility
+  edition: Current online guideline (version year to be recorded at verification)
+  url: https://uroweb.org/guidelines/sexual-and-reproductive-health/chapter/male-infertility
+
+- key: aua-asrm-male-infertility-2024
+  organization: AUA
+  title: "Diagnosis and Treatment of Infertility in Men: AUA/ASRM Guideline"
+  year: 2024
+  edition: 2020, amended 2024 (joint AUA/ASRM)
+  url: https://www.auanet.org/documents/Guidelines/PDF/2024%20Guidelines/Male%20Infertility%20Unabridged%20Final.pdf

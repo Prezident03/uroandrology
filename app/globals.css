@@ -150,3 +150,7 @@
 .clinical-prose table caption {
   @apply pb-2 text-left text-sm text-muted;
 }
+.clinical-prose blockquote p::before,
+.clinical-prose blockquote p::after {
+  content: none;
+}

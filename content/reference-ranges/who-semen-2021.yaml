@@ -1,0 +1,51 @@
+# Lower reference limits as listed in the uploaded semen analysis draft (section 4),
+# attributed to the WHO manual, 6th edition (2021). Not copied to any other WHO edition.
+# These are 5th-percentile values, not diagnostic fertility/infertility thresholds.
+id: who-semen-2021
+title:
+  uz: WHO 6-nashri (2021) bo‘yicha quyi referens qiymatlar
+  en: WHO 6th edition (2021) lower reference limits
+  ru: Нижние референсные пределы ВОЗ, 6-е издание (2021)
+source: who-semen-2021
+edition: 6th edition, 2021
+group: semen
+status: requires-review
+parameters:
+  - id: volume
+    label: { uz: Eyakulyat hajmi, en: Semen volume, ru: Объём эякулята }
+    unit: mL
+    lowerLimit: 1.4
+  - id: concentration
+    label: { uz: Spermatozoid konsentratsiyasi, en: Sperm concentration, ru: Концентрация сперматозоидов }
+    unit: 10⁶/mL
+    lowerLimit: 16
+  - id: total-number
+    label: { uz: Spermatozoidlarning umumiy soni, en: Total sperm number, ru: Общее количество сперматозоидов }
+    unit: 10⁶/ejaculate
+    lowerLimit: 39
+  - id: total-motility
+    label: { uz: "Umumiy harakatchanlik (PR + NP)", en: "Total motility (PR + NP)", ru: "Общая подвижность (PR + NP)" }
+    unit: "%"
+    lowerLimit: 42
+  - id: progressive-motility
+    label: { uz: Progressiv harakatchanlik (PR), en: Progressive motility (PR), ru: Прогрессивная подвижность (PR) }
+    unit: "%"
+    lowerLimit: 30
+  - id: vitality
+    label: { uz: Tirik spermatozoidlar (vitality), en: Vitality, ru: Жизнеспособность }
+    unit: "%"
+    lowerLimit: 54
+  - id: morphology
+    label: { uz: Normal morfologiya, en: Normal morphology, ru: Нормальная морфология }
+    unit: "%"
+    lowerLimit: 4
+  - id: ph
+    label: { uz: pH, en: pH, ru: pH }
+    unit: "—"
+    lowerLimit: 7.2
+    note: { uz: ">7.2; laboratoriya metodikasi va klinik kontekst bilan talqin qilinadi" }
+  - id: leukocytes
+    label: { uz: Peroksidaza-musbat leykotsitlar, en: Peroxidase-positive leukocytes, ru: Пероксидаза-положительные лейкоциты }
+    unit: 10⁶/mL
+    upperLimit: 1.0
+    note: { uz: "<1.0; laboratoriya metodikasi va klinik kontekst bilan talqin qilinadi" }
