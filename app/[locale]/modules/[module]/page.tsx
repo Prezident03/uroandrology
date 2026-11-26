@@ -36,7 +36,7 @@ export default async function ModulePage({ params }: PageProps<"/[locale]/module
 
   return (
     <div className="mx-auto max-w-4xl space-y-6">
-      <RecordRecent moduleId={m.id} />
+      <RecordRecent path={`/modules/${m.id}`} />
       <PageHeader
         eyebrow={
           <span className="mb-3 inline-grid size-11 place-items-center rounded-lg border border-primary/30 bg-primary/10 text-primary">
@@ -45,7 +45,7 @@ export default async function ModulePage({ params }: PageProps<"/[locale]/module
         }
         title={t(`modules.${m.id}.title`)}
         description={t(`modules.${m.id}.description`)}
-        actions={<BookmarkButton moduleId={m.id} />}
+        actions={<BookmarkButton path={`/modules/${m.id}`} />}
       />
 
       {m.id === "clinical-assessment" && (

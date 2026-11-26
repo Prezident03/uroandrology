@@ -1,6 +1,6 @@
 ---
 title: "Spermogramma (sperma tahlili)"
-version: 1.0.0
+version: 1.0.1
 status: requires-review
 sourceLocale: uz
 references: [who-semen-2021, eau-male-infertility, aua-asrm-male-infertility-2024]
@@ -191,11 +191,5 @@ Klinik holatga qarab:
 - Dumaloq hujayralar ko‘payishini leykotsitospermiya bilan tenglashtirmang.
 - Agglyutinatsiyani antisperm antitanachalar tashxisi bilan tenglashtirmang.
 - Antibiotik, gormon yoki antioksidantlarni faqat spermogramma natijasiga qarab avtomatik buyurmang; klinik ko‘rsatma va dalillarni baholang.
-
-## 10. Asosiy manbalar
-
-1. World Health Organization. *WHO laboratory manual for the examination and processing of human semen*. 6th ed. Geneva: WHO; 2021. https://www.who.int/publications/i/item/9789240030787
-2. European Association of Urology. *EAU Guidelines on Sexual and Reproductive Health — Male Infertility*. Use the current online guideline and record the access/review date in the source registry. https://uroweb.org/guidelines/sexual-and-reproductive-health/chapter/male-infertility
-3. American Urological Association / American Society for Reproductive Medicine. *Diagnosis and Treatment of Infertility in Men: AUA/ASRM Guideline* (2020; amended 2024). https://www.auanet.org/documents/Guidelines/PDF/2024%20Guidelines/Male%20Infertility%20Unabridged%20Final.pdf
 
 > **Tahririy eslatma:** platformaga joylashdan oldin manbalarning amaldagi nashri, mahalliy laboratoriya metodikasi va klinik protokollar bilan solishtiring. Har bir klinik tavsiya tegishli manbaga bog‘lanishi va mas’ul shifokor tomonidan tasdiqlanishi kerak.

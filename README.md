@@ -34,7 +34,8 @@ See [content/README.md](content/README.md). Machine translation is not accepted.
 ## Project structure
 
 ```
-app/[locale]/          routes: dashboard, modules, modules/[module], settings
+app/[locale]/          routes: dashboard, modules, assessment, tools, algorithms, guidelines,
+                       clinical-cases, content-status, settings
 components/            layout, navigation, dashboard, clinical, common, ui
 lib/                   i18n, clinical (module registry), search, storage
 messages/              uz.json en.json ru.json  (interface text)
@@ -46,8 +47,9 @@ tests/                 Vitest tests for the content compiler
 
 ## Data and privacy
 
-Only non-clinical preferences are kept in the browser (bookmarks, recently opened modules,
-sidebar state). No patient data is stored, and nothing is sent to external services.
+Only non-clinical preferences are kept in the browser (bookmarked and recently opened page paths,
+tool usage counts, sidebar state). Form, calculator and self-assessment answers stay in memory only.
+Search runs entirely in the browser. No patient data is stored, and nothing is sent to external services.
 
 ## Deployment (Vercel)
 
@@ -62,5 +64,6 @@ sidebar state). No patient data is stored, and nothing is sent to external servi
 2. Content system and Male infertility module ✅
 3. Remaining four modules ✅
 4. Anamnesis forms, calculators, diagnostic algorithms ✅
-5. Guidelines library, clinical cases, search and bookmarks
+5. Guidelines library, clinical cases, search and bookmarks ✅
 6. Testing, mobile optimisation, security review, production deploy
+7. Telegram Mini App

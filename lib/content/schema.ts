@@ -53,6 +53,31 @@ export const frontMatterSchema = z
 
 export type FrontMatter = z.infer<typeof frontMatterSchema>;
 
+/** Clinical case files (content/cases/<slug>.<locale>.md): fictional or properly anonymised only. */
+export const caseFrontMatterSchema = frontMatterSchema
+  .extend({
+    title: z.string().min(3),
+    module: z.enum(["male-infertility", "erectile-dysfunction", "premature-ejaculation", "hypogonadism", "clinical-assessment"]),
+    anonymisation: z.enum(["fictional", "anonymised"]),
+    questions: z
+      .array(
+        z
+          .object({
+            question: z.string().min(3),
+            options: z.array(z.string().min(1)).min(2),
+            answer: z.number().int().min(0),
+            explanation: z.string().min(3),
+          })
+          .strict()
+          .refine((q) => q.answer < q.options.length, "answer must be the index of one of the options"),
+      )
+      .default([]),
+  })
+  .strict();
+
+export type CaseFrontMatter = z.infer<typeof caseFrontMatterSchema>;
+export type CaseQuestion = CaseFrontMatter["questions"][number];
+
 const localizedText = z.object({ uz: z.string(), en: z.string(), ru: z.string() }).strict();
 const reviewFields = {
   status: contentStatusSchema,
@@ -173,7 +198,7 @@ export type ContentLocale = z.infer<typeof localeSchema>;
 export type ContentStatusValue = z.infer<typeof contentStatusSchema>;
 
 export interface CompiledEntry {
-  kind: "section" | "topic";
+  kind: "section" | "topic" | "case";
   module: string;
   slug: string;
   locale: ContentLocale;
@@ -191,6 +216,8 @@ export interface CompiledEntry {
   /** Reference keys in citation order. */
   references: string[];
   html: string;
+  /** Only for clinical cases. */
+  caseMeta?: { anonymisation: "fictional" | "anonymised"; questions: CaseQuestion[] };
 }
 
 export interface CompiledReference extends Reference {
@@ -203,6 +230,8 @@ export interface ContentBundle {
   /** key: `${module}/${slug}` → locale → entry */
   sections: Record<string, Partial<Record<ContentLocale, CompiledEntry>>>;
   topics: Record<string, Partial<Record<ContentLocale, CompiledEntry>>>;
+  /** key: case slug → locale → entry (entry.module = the case's clinical module) */
+  cases: Record<string, Partial<Record<ContentLocale, CompiledEntry>>>;
   /** Review status of every file, including drafts hidden from production: `${kind}:${module}/${slug}` → locale → status */
   statusIndex: Record<string, Partial<Record<ContentLocale, ContentStatusValue>>>;
   references: Record<string, CompiledReference>;

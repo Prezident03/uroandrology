@@ -1,6 +1,8 @@
 import Link from "next/link";
 import { ArrowLeft, Info } from "lucide-react";
 import type { ReactNode } from "react";
+import { BookmarkButton } from "@/components/clinical/bookmark-button";
+import { RecordRecent } from "@/components/clinical/record-recent";
 import { ReferenceList } from "@/components/clinical/reference-list";
 import type { CompiledReference } from "@/lib/content/schema";
 import type { Translator } from "@/lib/i18n/translate";
@@ -17,6 +19,7 @@ export function ToolShell({
   refs,
   children,
   aside,
+  path,
 }: {
   t: Translator;
   locale: string;
@@ -28,6 +31,8 @@ export function ToolShell({
   refs?: CompiledReference[];
   children: ReactNode;
   aside?: ReactNode;
+  /** Locale-free path, e.g. "/tools/bmi", for bookmarks, recents and usage counts. */
+  path: string;
 }) {
   return (
     <div className="mx-auto max-w-4xl space-y-6">
@@ -36,7 +41,11 @@ export function ToolShell({
           <ArrowLeft aria-hidden="true" className="size-4" />
           {t("tools.title")}
         </Link>
-        <h1 className="text-2xl font-semibold tracking-tight sm:text-3xl">{title}</h1>
+        <RecordRecent path={path} />
+        <div className="flex items-start justify-between gap-3">
+          <h1 className="text-2xl font-semibold tracking-tight sm:text-3xl">{title}</h1>
+          <BookmarkButton path={path} compact />
+        </div>
         <p className="text-muted">{description}</p>
         {status}
       </header>

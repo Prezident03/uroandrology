@@ -1,6 +1,8 @@
 import Link from "next/link";
 import { ArrowLeft, ArrowRight } from "lucide-react";
+import { BookmarkButton } from "@/components/clinical/bookmark-button";
 import { PendingReviewNotice } from "@/components/clinical/content-status";
+import { RecordRecent } from "@/components/clinical/record-recent";
 import { ContentBody } from "@/components/clinical/content-body";
 import { ContentMeta, OtherLanguages } from "@/components/clinical/content-meta";
 import { ReferenceList } from "@/components/clinical/reference-list";
@@ -28,6 +30,7 @@ export function ContentPage({
   outlineTitle,
   activeHref,
   notice,
+  path,
 }: {
   t: Translator;
   title: string;
@@ -42,6 +45,8 @@ export function ContentPage({
   activeHref: string;
   /** Fixed safety notice shown above the content, whatever its review status. */
   notice?: ReactNode;
+  /** Locale-free path of this page, for bookmarks and recents. */
+  path: string;
 }) {
   const { entry, otherLocales } = lookup;
   return (
@@ -52,7 +57,11 @@ export function ContentPage({
             <ArrowLeft aria-hidden="true" className="size-4" />
             {eyebrow.label}
           </Link>
-          <h1 className="text-2xl font-semibold tracking-tight sm:text-3xl">{entry?.title ?? title}</h1>
+          <RecordRecent path={path} />
+          <div className="flex items-start justify-between gap-3">
+            <h1 className="text-2xl font-semibold tracking-tight sm:text-3xl">{entry?.title ?? title}</h1>
+            <BookmarkButton path={path} compact />
+          </div>
           {entry && <ContentMeta entry={entry} t={t} />}
         </header>
 

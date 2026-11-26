@@ -15,6 +15,7 @@ reaches the site. Changes are proposed as GitHub pull requests and reviewed ther
 | `questionnaires/<id>.yaml` | Licensed questionnaire text and scoring bands (`iief-5`, `pedt`) |
 | `interpretation/<id>.yaml` | Value bands for calculators (`bmi`) |
 | `algorithms/<id>.yaml` | Diagnostic pathways: steps, decisions, mandatory/optional/conditional, referral points |
+| `cases/<slug>.<uz\|en\|ru>.md` | Clinical cases with self-assessment questions (format below) |
 | `_templates/` | Copy-and-fill templates (ignored by the build) |
 
 Module and section names: see `lib/clinical/modules.ts` or the **Content status** page in the app.
@@ -35,6 +36,42 @@ Module and section names: see `lib/clinical/modules.ts` or the **Content status*
 - Each language is written or translated and verified by a person. Machine translation is not accepted.
 - A translation records the original version it was made from (`sourceVersion`). When the original
   changes, the site shows "translation behind original" until the translation is updated.
+
+## Clinical cases
+
+Cases must be **fictional or fully anonymised** and written or reviewed by a physician. Never include
+names, dates, places, record numbers, images or any combination of details that could identify a patient.
+
+```markdown
+---
+title: Infertility work-up in a 32-year-old man
+version: 1.0.0
+status: requires-review          # approved only after physician review (reviewedBy, reviewedAt)
+sourceLocale: uz
+module: male-infertility         # male-infertility | erectile-dysfunction | premature-ejaculation | hypogonadism | clinical-assessment
+anonymisation: fictional         # fictional | anonymised
+references: [who-semen-2021]
+questions:
+  - question: Which test should be repeated first?
+    options: [Option A, Option B, Option C]
+    answer: 1                    # index of the correct option, counted from 0
+    explanation: Why this is the answer, with the source.
+---
+## Presentation
+...
+```
+
+## Guideline update tracking
+
+Each entry in `guidelines/references.yaml` may carry an `updates` list (newest first). Entries appear in the
+guidelines library and under "Latest guideline updates" on the dashboard. Set `lastVerified` only after the
+edition, chapter and link have really been checked against the original publication.
+
+```yaml
+  updates:
+    - date: 2026-03-01
+      note: New edition published; chapter 4 recommendations changed.
+```
 
 ## Uzbek / Oʻzbekcha (qisqacha)
 

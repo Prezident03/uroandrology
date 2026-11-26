@@ -53,6 +53,7 @@ export default async function SectionPage({ params }: Props) {
       outlineTitle={t("modules.sectionsTitle")}
       notice={testosteroneFertilityRulePages.has(`${m.id}/${section}`) ? <TestosteroneFertilityRule t={t} /> : undefined}
       activeHref={`${base}/${section}`}
+      path={`/modules/${m.id}/${section}`}
       extra={
         <>
           {m.id === "male-infertility" && section === "semen-analysis" && <SemenParameters t={t} />}

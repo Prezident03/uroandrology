@@ -53,6 +53,7 @@ export default async function TopicPage({ params }: Props) {
       outlineTitle={t("content.topicsTitle")}
       notice={testosteroneFertilityRulePages.has(`${m.id}/${topic}`) ? <TestosteroneFertilityRule t={t} /> : undefined}
       activeHref={`${base}/topics/${topic}`}
+      path={`/modules/${m.id}/topics/${topic}`}
     />
   );
 }

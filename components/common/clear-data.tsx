@@ -4,17 +4,18 @@ import { useState } from "react";
 import { Trash2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useI18n } from "@/lib/i18n/client";
-import { useBookmarks, useRecents } from "@/lib/storage/user-prefs";
+import { useBookmarks, useRecents, useToolUsage } from "@/lib/storage/user-prefs";
 
 export function ClearLocalData() {
   const { t } = useI18n();
   const recents = useRecents();
   const bookmarks = useBookmarks();
+  const usage = useToolUsage();
   const [done, setDone] = useState<"recent" | "bookmarks" | null>(null);
   return (
     <div className="flex flex-wrap items-center gap-3">
-      <Button variant="danger" size="sm" disabled={recents.recents.length === 0}
-        onClick={() => { recents.clear(); setDone("recent"); }}>
+      <Button variant="danger" size="sm" disabled={recents.recents.length === 0 && Object.keys(usage.usage).length === 0}
+        onClick={() => { recents.clear(); usage.clear(); setDone("recent"); }}>
         <Trash2 aria-hidden="true" />
         {t("settings.clearRecent")}
       </Button>

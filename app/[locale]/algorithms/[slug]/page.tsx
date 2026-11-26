@@ -3,6 +3,8 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ArrowLeft } from "lucide-react";
 import { AlgorithmView } from "@/components/algorithms/algorithm-view";
+import { BookmarkButton } from "@/components/clinical/bookmark-button";
+import { RecordRecent } from "@/components/clinical/record-recent";
 import { ReferenceList } from "@/components/clinical/reference-list";
 import { getAlgorithm, getReferences, listAlgorithms } from "@/lib/content";
 import { getLocale, getTranslator } from "@/lib/i18n/server";
@@ -37,7 +39,11 @@ export default async function AlgorithmPage({ params }: Props) {
           <ArrowLeft aria-hidden="true" className="size-4" />
           {t("algorithms.title")}
         </Link>
-        <h1 className="text-2xl font-semibold tracking-tight sm:text-3xl">{a.title[locale]}</h1>
+        <RecordRecent path={`/algorithms/${a.id}`} />
+        <div className="flex items-start justify-between gap-3">
+          <h1 className="text-2xl font-semibold tracking-tight sm:text-3xl">{a.title[locale]}</h1>
+          <BookmarkButton path={`/algorithms/${a.id}`} compact />
+        </div>
       </header>
       <AlgorithmView algorithm={a} locale={locale} t={t} />
       <ReferenceList refs={getReferences(a.references)} t={t} />

@@ -1,0 +1,25 @@
+# WHO adult BMI cut-offs as published on the WHO European Health Information Gateway:
+# underweight <18.5, normal 18.50–24.99, overweight ≥25, obese ≥30.
+# BMI is rounded to one decimal, so bands use x.9 upper ends.
+id: bmi
+title: { uz: WHO boʻyicha TVI toifalari (kattalar), en: WHO BMI categories (adults), ru: Категории ИМТ по ВОЗ (взрослые) }
+source: who-bmi-cutoffs
+unit: kg/m²
+status: requires-review
+bands:
+  - min: 0
+    max: 18.4
+    label: { uz: Vazn yetishmasligi, en: Underweight, ru: Недостаточная масса тела }
+    tone: warning
+  - min: 18.5
+    max: 24.9
+    label: { uz: Normal vazn, en: Normal weight, ru: Нормальная масса тела }
+    tone: success
+  - min: 25
+    max: 29.9
+    label: { uz: Ortiqcha vazn, en: Overweight, ru: Избыточная масса тела }
+    tone: warning
+  - min: 30
+    max: 999
+    label: { uz: Semizlik, en: Obesity, ru: Ожирение }
+    tone: danger

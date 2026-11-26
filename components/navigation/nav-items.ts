@@ -16,8 +16,8 @@ export const primaryNav: NavItem[] = [
   { labelKey: "nav.assessment", icon: ClipboardList, path: "/assessment" },
   { labelKey: "nav.tools", icon: Calculator, path: "/tools" },
   { labelKey: "nav.algorithms", icon: GitBranch, path: "/algorithms" },
-  { labelKey: "nav.guidelines", icon: BookOpen, plannedPhase: 5 },
-  { labelKey: "nav.cases", icon: Stethoscope, plannedPhase: 5 },
+  { labelKey: "nav.guidelines", icon: BookOpen, path: "/guidelines" },
+  { labelKey: "nav.cases", icon: Stethoscope, path: "/clinical-cases" },
 ];
 
 export const secondaryNav: NavItem[] = [

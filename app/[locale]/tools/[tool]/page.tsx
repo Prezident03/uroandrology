@@ -32,7 +32,7 @@ export default async function ToolPage({ params }: Props) {
   if (!isToolId(tool)) notFound();
   const locale = await getLocale();
   const t = await getTranslator(locale);
-  const shell = { t, locale, title: t(`tools.${tool}.title`), description: t(`tools.${tool}.description`) };
+  const shell = { t, locale, title: t(`tools.${tool}.title`), description: t(`tools.${tool}.description`), path: `/tools/${tool}` };
 
   switch (tool) {
     case "iief-5":

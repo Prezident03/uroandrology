@@ -63,7 +63,15 @@ describe("content compiler", () => {
     expect(preview.sections["male-infertility/etiology"]?.en?.status).toBe("draft");
   });
 
+  it("compiles clinical cases with self-assessment questions", () => {
+    const entry = compile(fixtures).bundle.cases["test-case"]?.en;
+    expect(entry?.module).toBe("male-infertility");
+    expect(entry?.caseMeta?.questions[0]?.answer).toBe(1);
+  });
+
   it.each([
+    ["case without anonymisation", "../cases/bad.en.md", "---\ntitle: Bad case\nversion: 1.0.0\nstatus: draft\nsourceLocale: en\nmodule: hypogonadism\n---\nx", "anonymisation"],
+    ["case answer out of range", "../cases/bad.en.md", "---\ntitle: Bad case\nversion: 1.0.0\nstatus: draft\nsourceLocale: en\nmodule: hypogonadism\nanonymisation: fictional\nquestions:\n  - question: Qq?\n    options: [A, B]\n    answer: 5\n    explanation: Eee\n---\nx", "answer must be the index"],
     ["approved without reviewer", "male-infertility/treatment.en.md", "---\nversion: 1.0.0\nstatus: approved\nsourceLocale: en\n---\nx", "reviewedBy"],
     ["unknown reference", "male-infertility/treatment.en.md", "---\nversion: 1.0.0\nstatus: draft\nsourceLocale: en\n---\n:cite[nope]", 'unknown reference "nope"'],
     ["guideline without source", "male-infertility/treatment.en.md", "---\nversion: 1.0.0\nstatus: draft\nsourceLocale: en\n---\n:::guideline\nx\n:::", "must name its source"],

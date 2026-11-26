@@ -14,7 +14,7 @@ export function ModuleCard({ module, locale, t }: { module: ClinicalModuleDefini
           <ModuleIcon name={module.icon} className="size-5" />
         </span>
         <div className="relative z-10 -mr-2 -mt-2">
-          <BookmarkButton moduleId={module.id} compact />
+          <BookmarkButton path={`/modules/${module.id}`} compact />
         </div>
       </div>
       <p className="mt-4 font-mono text-xs text-muted">

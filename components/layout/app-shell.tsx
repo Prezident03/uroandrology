@@ -5,15 +5,20 @@ import { BottomNav } from "@/components/navigation/bottom-nav";
 import { DesktopSidebar } from "@/components/navigation/sidebar";
 import { SearchDialog } from "@/components/navigation/search-dialog";
 import { useI18n } from "@/lib/i18n/client";
+import { SearchIndexProvider } from "@/lib/search/context";
+import type { ExtraSearchItem } from "@/lib/search/index";
+import { migrateLegacyPrefs } from "@/lib/storage/migrate";
 import { useSidebarCollapsed } from "@/lib/storage/user-prefs";
 import { Header } from "./header";
 import { MobileDrawer } from "./mobile-drawer";
 
-export function AppShell({ children }: { children: ReactNode }) {
+export function AppShell({ children, searchExtras }: { children: ReactNode; searchExtras: ExtraSearchItem[] }) {
   const { t } = useI18n();
   const [collapsed, setCollapsed] = useSidebarCollapsed();
   const [searchOpen, setSearchOpen] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
+
+  useEffect(() => migrateLegacyPrefs(), []);
 
   useEffect(() => {
     function onKey(e: KeyboardEvent) {
@@ -27,6 +32,7 @@ export function AppShell({ children }: { children: ReactNode }) {
   }, []);
 
   return (
+    <SearchIndexProvider extras={searchExtras}>
     <div className="flex min-h-dvh">
       <a href="#main"
         className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-50 focus:rounded-lg focus:bg-primary focus:px-4 focus:py-2 focus:text-primary-foreground">
@@ -46,5 +52,6 @@ export function AppShell({ children }: { children: ReactNode }) {
       <MobileDrawer open={menuOpen} onClose={() => setMenuOpen(false)} />
       <SearchDialog open={searchOpen} onClose={() => setSearchOpen(false)} />
     </div>
+    </SearchIndexProvider>
   );
 }

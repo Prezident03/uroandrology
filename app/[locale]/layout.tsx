@@ -3,6 +3,7 @@ import { Inter, JetBrains_Mono } from "next/font/google";
 import { AppShell } from "@/components/layout/app-shell";
 import { htmlLang, locales } from "@/lib/i18n/config";
 import { I18nProvider } from "@/lib/i18n/client";
+import { getSearchExtras } from "@/lib/content";
 import { getLocale, getMessages } from "@/lib/i18n/server";
 import "../globals.css";
 
@@ -42,11 +43,16 @@ export const viewport: Viewport = {
 export default async function LocaleLayout({ children }: LayoutProps<"/[locale]">) {
   const locale = await getLocale();
   const messages = await getMessages(locale);
+  const searchExtras = getSearchExtras(locale, {
+    algorithms: messages.nav.algorithms,
+    guidelines: messages.nav.guidelines,
+    cases: messages.nav.cases,
+  });
   return (
     <html lang={htmlLang[locale]} className={`${inter.variable} ${jetbrains.variable} antialiased`}>
       <body>
         <I18nProvider locale={locale} messages={messages}>
-          <AppShell>{children}</AppShell>
+          <AppShell searchExtras={searchExtras}>{children}</AppShell>
         </I18nProvider>
       </body>
     </html>

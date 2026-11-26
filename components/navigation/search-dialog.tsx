@@ -4,10 +4,12 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useId, useMemo, useRef, useState } from "react";
 import { Search, X } from "lucide-react";
-import { ModuleIcon } from "@/components/clinical/module-icon";
 import { useI18n } from "@/lib/i18n/client";
-import { buildSearchIndex, searchEntries } from "@/lib/search/index";
+import { useSearchIndex } from "@/lib/search/context";
+import { findByPath, searchEntries, searchKinds, suggestedPaths, type SearchEntry, type SearchKind } from "@/lib/search/index";
+import { useRecents } from "@/lib/storage/user-prefs";
 import { cn } from "@/lib/utils";
+import { KindIcon } from "./kind-icon";
 
 export function SearchDialog({ open, onClose }: { open: boolean; onClose: () => void }) {
   const { locale, t } = useI18n();
@@ -16,10 +18,26 @@ export function SearchDialog({ open, onClose }: { open: boolean; onClose: () => 
   const inputRef = useRef<HTMLInputElement>(null);
   const [query, setQuery] = useState("");
   const [active, setActive] = useState(0);
+  const [kind, setKind] = useState<SearchKind | "all">("all");
   const listId = useId();
 
-  const index = useMemo(() => buildSearchIndex(locale, t), [locale, t]);
-  const results = useMemo(() => searchEntries(index, query), [index, query]);
+  const index = useSearchIndex();
+  const { recents } = useRecents();
+  const empty = query.trim() === "";
+  const results = useMemo<SearchEntry[]>(() => {
+    if (empty) {
+      // Suggestions: recently opened pages first, then a few common starting points.
+      const paths = [...recents.map((r) => r.path), ...suggestedPaths];
+      return [...new Set(paths)].map((p) => findByPath(index, p)).filter((e): e is SearchEntry => Boolean(e)).slice(0, 8);
+    }
+    const all = searchEntries(index, query, 200);
+    return (kind === "all" ? all : all.filter((e) => e.kind === kind)).slice(0, 30);
+  }, [empty, index, query, kind, recents]);
+  const counts = useMemo(() => {
+    const c = new Map<SearchKind, number>();
+    if (!empty) for (const e of searchEntries(index, query, 200)) c.set(e.kind, (c.get(e.kind) ?? 0) + 1);
+    return c;
+  }, [empty, index, query]);
 
   useEffect(() => {
     const dialog = dialogRef.current;
@@ -35,6 +53,7 @@ export function SearchDialog({ open, onClose }: { open: boolean; onClose: () => 
   function close() {
     setQuery("");
     setActive(0);
+    setKind("all");
     onClose();
   }
 
@@ -47,7 +66,7 @@ export function SearchDialog({ open, onClose }: { open: boolean; onClose: () => 
       setActive((i) => Math.max(i - 1, 0));
     } else if (e.key === "Enter" && results[active]) {
       e.preventDefault();
-      router.push(results[active].href);
+      router.push(`/${locale}${results[active].path}`);
       close();
     }
   }
@@ -84,17 +103,39 @@ export function SearchDialog({ open, onClose }: { open: boolean; onClose: () => 
             <X aria-hidden="true" className="size-5" />
           </button>
         </div>
+        {!empty && counts.size > 0 && (
+          <div role="group" aria-label={t("search.filter")} className="flex gap-1.5 overflow-x-auto border-b border-border px-3 py-2">
+            {(["all", ...searchKinds.filter((k) => counts.has(k))] as const).map((k) => (
+              <button
+                key={k}
+                type="button"
+                aria-pressed={kind === k}
+                onClick={() => { setKind(k); setActive(0); }}
+                className={cn(
+                  "shrink-0 rounded-full border px-3 py-1 text-xs",
+                  kind === k ? "border-primary/50 bg-primary/10 text-primary" : "border-border text-muted hover:text-foreground",
+                )}
+              >
+                {k === "all" ? t("search.kinds.all") : t(`search.kinds.${k}`)}
+                {k !== "all" && <span className="ml-1 font-mono">{counts.get(k)}</span>}
+              </button>
+            ))}
+          </div>
+        )}
         <div className="flex-1 overflow-y-auto p-2">
-          {query.trim() === "" ? (
+          {empty && results.length > 0 && (
+            <p className="px-3 pb-1 pt-2 text-xs font-semibold uppercase tracking-wider text-muted">{t("search.suggestions")}</p>
+          )}
+          {empty && results.length === 0 ? (
             <p className="px-3 py-6 text-center text-sm text-muted">{t("search.hint")}</p>
-          ) : results.length === 0 ? (
+          ) : !empty && results.length === 0 ? (
             <p className="px-3 py-6 text-center text-sm text-muted">{t("search.noResults", { query })}</p>
           ) : (
             <ul id={listId} role="listbox" aria-label={t("nav.search")} className="space-y-1">
               {results.map((r, i) => (
                 <li key={r.id} id={`${listId}-${i}`} role="option" aria-selected={i === active}>
                   <Link
-                    href={r.href}
+                    href={`/${locale}${r.path}`}
                     onClick={close}
                     onMouseEnter={() => setActive(i)}
                     className={cn(
@@ -102,13 +143,13 @@ export function SearchDialog({ open, onClose }: { open: boolean; onClose: () => 
                       i === active ? "bg-card" : "hover:bg-card",
                     )}
                   >
-                    <ModuleIcon name={r.icon} className="size-5 shrink-0 text-primary" />
+                    <KindIcon kind={r.kind} className="size-5 shrink-0 text-primary" />
                     <span className="min-w-0 flex-1">
                       <span className="block truncate text-sm font-medium">{r.title}</span>
                       {r.context && <span className="block truncate text-xs text-muted">{r.context}</span>}
                     </span>
                     <span className="shrink-0 rounded border border-border px-1.5 text-[11px] text-muted">
-                      {r.kind === "module" ? t("search.categoryModule") : t("search.categorySection")}
+                      {t(`search.kinds.${r.kind}`)}
                     </span>
                   </Link>
                 </li>

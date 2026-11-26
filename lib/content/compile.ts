@@ -30,6 +30,7 @@ import {
   type Band,
   type Interpretation,
   type Questionnaire,
+  caseFrontMatterSchema,
   frontMatterSchema,
   rangeDatasetSchema,
   referenceFileSchema,
@@ -233,6 +234,28 @@ export function compileContent(opts: CompileOptions): CompileResult {
     }
   }
 
+  // 3b. Clinical cases
+  const cases: ContentBundle["cases"] = {};
+  const caseDir = path.join(contentDir, "cases");
+  if (fs.existsSync(caseDir)) {
+    for (const name of fs.readdirSync(caseDir)) {
+      const file = path.join(caseDir, name);
+      if (fs.statSync(file).isDirectory() || name.startsWith("_") || name.toLowerCase() === "readme.md") continue;
+      const where = rel(contentDir, file);
+      const match = FILE_RE.exec(name);
+      if (!match) {
+        errors.push(`${where}: file names must look like <case-slug>.<uz|en|ru>.md`);
+        continue;
+      }
+      const [, slug, locale] = match as unknown as [string, string, ContentLocale];
+      const entry = compileFile({ file, where, kind: "case", moduleId: "", slug, locale, references, rangeDatasets, messages, errors, warnings, today });
+      if (!entry) continue;
+      statusIndex[`case:${slug}`] = { ...statusIndex[`case:${slug}`], [locale]: entry.status };
+      all.push(entry);
+      if (preview || entry.status === "approved" || entry.status === "requires-review") cases[slug] = { ...cases[slug], [locale]: entry };
+    }
+  }
+
   // 4. Translation drift
   for (const e of all) {
     if (e.locale === e.sourceLocale) continue;
@@ -251,6 +274,7 @@ export function compileContent(opts: CompileOptions): CompileResult {
       preview,
       sections,
       topics,
+      cases,
       statusIndex,
       references,
       rangeDatasets,
@@ -266,7 +290,7 @@ export function compileContent(opts: CompileOptions): CompileResult {
 interface FileContext {
   file: string;
   where: string;
-  kind: "section" | "topic";
+  kind: "section" | "topic" | "case";
   moduleId: string;
   slug: string;
   locale: ContentLocale;
@@ -285,12 +309,13 @@ function compileFile(ctx: FileContext): CompiledEntry | null {
   const data = Object.fromEntries(
     Object.entries(raw.data).map(([k, v]) => [k, v instanceof Date ? v.toISOString().slice(0, 10) : v]),
   );
-  const parsed = frontMatterSchema.safeParse(data);
+  const parsed = ctx.kind === "case" ? caseFrontMatterSchema.safeParse(data) : frontMatterSchema.safeParse(data);
   if (!parsed.success) {
     errors.push(...zodIssues(where, parsed.error));
     return null;
   }
   const fm = parsed.data;
+  const caseFm = ctx.kind === "case" ? caseFrontMatterSchema.parse(data) : undefined;
   const before = errors.length;
   const translated = locale !== fm.sourceLocale;
 
@@ -308,7 +333,7 @@ function compileFile(ctx: FileContext): CompiledEntry | null {
   const order = [...cited, ...fm.references.filter((k) => !cited.includes(k))];
   return {
     kind: ctx.kind,
-    module: ctx.moduleId,
+    module: caseFm?.module ?? ctx.moduleId,
     slug: ctx.slug,
     locale,
     title: fm.title,
@@ -324,6 +349,7 @@ function compileFile(ctx: FileContext): CompiledEntry | null {
     translationBehind: false,
     references: order,
     html,
+    caseMeta: caseFm ? { anonymisation: caseFm.anonymisation, questions: caseFm.questions } : undefined,
   };
 }
 
