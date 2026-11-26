@@ -1,0 +1,146 @@
+{
+  "meta": {
+    "appName": "UROANDROLOGY",
+    "appTagline": "Clinical Companion",
+    "description": "Urolog va androloglar uchun klinik maʼlumotnoma va qaror qabul qilishni qoʻllab-quvvatlash platformasi."
+  },
+  "nav": {
+    "main": "Asosiy navigatsiya",
+    "dashboard": "Bosh sahifa",
+    "modules": "Klinik modullar",
+    "modulesShort": "Modullar",
+    "tools": "Klinik vositalar",
+    "algorithms": "Algoritmlar",
+    "guidelines": "Klinik tavsiyalar",
+    "cases": "Klinik holatlar",
+    "settings": "Sozlamalar",
+    "search": "Qidiruv",
+    "more": "Yana",
+    "soon": "Tez orada",
+    "plannedFor": "{phase}-bosqichda qoʻshiladi",
+    "collapse": "Yon panelni yigʻish",
+    "expand": "Yon panelni ochish",
+    "openMenu": "Menyuni ochish",
+    "closeMenu": "Menyuni yopish",
+    "skipToContent": "Asosiy qismga oʻtish"
+  },
+  "language": {
+    "label": "Til",
+    "uz": "Oʻzbekcha",
+    "en": "English",
+    "ru": "Русский"
+  },
+  "search": {
+    "placeholder": "Mavzu, modul yoki boʻlimni qidiring…",
+    "open": "Qidiruvni ochish",
+    "shortcut": "Ctrl K",
+    "noResults": "“{query}” boʻyicha natija topilmadi",
+    "hint": "Modul va boʻlimlarni qidirish uchun yozing.",
+    "close": "Qidiruvni yopish",
+    "categoryModule": "Modul",
+    "categorySection": "Boʻlim",
+    "scopeNote": "Hozircha qidiruv modul va boʻlimlarni qamraydi. Mavzular, laborator koʻrsatkichlar va tavsiyalar 5-bosqichda qoʻshiladi."
+  },
+  "dashboard": {
+    "title": "Bosh sahifa",
+    "welcome": "Clinical Companion’ga xush kelibsiz",
+    "welcomeText": "Urologiya va andrologiya boʻyicha tizimlashtirilgan klinik maʼlumotnoma. Modulni oching, mavzuni qidiring yoki toʻxtagan joyingizdan davom eting.",
+    "modulesTitle": "Klinik modullar",
+    "recentTitle": "Yaqinda ochilganlar",
+    "recentEmpty": "Siz ochgan modullar shu yerda koʻrinadi.",
+    "bookmarksTitle": "Saqlanganlar",
+    "bookmarksEmpty": "Modulni saqlasangiz, u shu yerda koʻrinadi.",
+    "sectionsCount": "{count} ta boʻlim",
+    "openModule": "Modulni ochish",
+    "contentStatusTitle": "Kontent holati",
+    "contentStatusText": "Klinik kontent alohida yozilmoqda va shifokorlar tomonidan tekshirilmoqda. Tasdiqlangan kontent chiqquncha boʻlimlar oʻz tekshiruv holatini koʻrsatadi."
+  },
+  "modules": {
+    "title": "Klinik modullar",
+    "intro": "Bir xil tuzilishga ega beshta mustaqil modul.",
+    "sectionsTitle": "Boʻlimlar",
+    "bookmark": "Saqlash",
+    "bookmarked": "Saqlangan",
+    "removeBookmark": "Saqlanganlardan olib tashlash",
+    "male-infertility": {
+      "title": "Erkaklar bepushtligi",
+      "description": "Anamnez, koʻrik, spermogramma, gormonal va genetik tekshiruv, diagnostik yoʻl va davolash."
+    },
+    "erectile-dysfunction": {
+      "title": "Erektil disfunksiya",
+      "description": "Tasnif, anamnez, yurak-qon tomir xavfi, laborator tekshiruv, IIEF-5 va davolash usullari."
+    },
+    "premature-ejaculation": {
+      "title": "Erta eyakulyatsiya",
+      "description": "Umrbod va orttirilgan shakllar, diagnostik mezonlar, IELT, PEDT va dalillarga asoslangan davolash."
+    },
+    "hypogonadism": {
+      "title": "Erkaklar gipogonadizmi",
+      "description": "Birlamchi va ikkilamchi shakllar, gormonal diagnostika, davolash qarori va fertillikka taʼsiri."
+    },
+    "clinical-assessment": {
+      "title": "Klinik baholash",
+      "description": "Yagona ish jarayoni: dastlabki baholash, koʻrik, tekshiruvlarni tanlash, qaror daraxtlari va yoʻllanma."
+    }
+  },
+  "sections": {
+    "definition-classification": "Taʼrif va tasnif",
+    "definition": "Taʼrif",
+    "classification": "Tasnif",
+    "epidemiology": "Epidemiologiya",
+    "etiology": "Etiologiya",
+    "pathophysiology": "Patofiziologiya",
+    "medical-history": "Batafsil anamnez",
+    "history": "Anamnez",
+    "physical-examination": "Fizikal koʻrik",
+    "semen-analysis": "Spermogramma (eyakulyat tahlili)",
+    "hormonal-assessment": "Gormonal baholash",
+    "genetic-testing": "Genetik tekshiruv",
+    "imaging": "Vizualizatsiya va instrumental diagnostika",
+    "differential-diagnosis": "Differensial diagnostika",
+    "treatment": "Davolash",
+    "follow-up": "Kuzatuv va monitoring",
+    "clinical-cases": "Klinik holatlar",
+    "references": "Manbalar",
+    "cardiovascular-risk": "Yurak-qon tomir xavfini baholash",
+    "laboratory-diagnostics": "Laborator diagnostika",
+    "lifelong-acquired": "Umrbod va orttirilgan erta eyakulyatsiya",
+    "diagnostic-criteria": "Diagnostik mezonlar",
+    "pedt": "PEDT soʻrovnomasi",
+    "primary": "Birlamchi gipogonadizm",
+    "secondary": "Ikkilamchi gipogonadizm",
+    "clinical-symptoms": "Klinik belgilar",
+    "hormonal-diagnostics": "Gormonal diagnostika",
+    "initial-assessment": "Bemorni dastlabki baholash",
+    "anamnesis-workflow": "Anamnez yigʻish tartibi",
+    "physical-examination-checklist": "Fizikal koʻrik roʻyxati",
+    "laboratory-selection": "Laborator tekshiruvlarni tanlash",
+    "decision-trees": "Diagnostik qaror daraxtlari",
+    "referral-criteria": "Yoʻllanma mezonlari",
+    "follow-up-planning": "Kuzatuvni rejalashtirish"
+  },
+  "status": {
+    "pendingReview": "Tibbiy tekshiruv kutilmoqda",
+    "pendingReviewText": "Bu boʻlimda hali tasdiqlangan kontent yoʻq. U malakali shifokor tekshiruvidan soʻng manbalar va versiya bilan eʼlon qilinadi.",
+    "moduleStatus": "Modul kontenti: tibbiy tekshiruv kutilmoqda",
+    "version": "Versiya",
+    "notPublished": "hali eʼlon qilinmagan"
+  },
+  "settings": {
+    "title": "Sozlamalar",
+    "languageTitle": "Interfeys tili",
+    "languageText": "Klinik kontent har bir til uchun tasdiqlangan tarjimadan soʻng alohida eʼlon qilinadi.",
+    "dataTitle": "Brauzerda saqlanadigan maʼlumotlar",
+    "dataText": "Brauzerda faqat saqlanganlar, yaqinda ochilgan modullar va yon panel holati saqlanadi. Bemor maʼlumotlari saqlanmaydi.",
+    "clearRecent": "Yaqinda ochilganlarni tozalash",
+    "clearBookmarks": "Saqlanganlarni tozalash",
+    "cleared": "Tozalandi"
+  },
+  "disclaimer": {
+    "short": "Malakali tibbiyot mutaxassislari uchun. Faqat taʼlim va maʼlumotnoma maqsadida; klinik qarorning oʻrnini bosmaydi. Platforma tashxis qoʻymaydi va dori buyurmaydi."
+  },
+  "notFound": {
+    "title": "Sahifa topilmadi",
+    "back": "Bosh sahifaga qaytish"
+  }
+}

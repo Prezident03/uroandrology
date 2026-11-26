@@ -1,26 +1,104 @@
 @import "tailwindcss";
 
+/*
+ * Design tokens: Premium dark medical interface (architecture plan, section 3).
+ * Components use the semantic Tailwind names below (bg-card, text-muted, ...)
+ * and never raw hex values, so the palette can change in one place.
+ */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --ua-bg: #0b1120;
+  --ua-bg-subtle: #111827;
+  --ua-card: #172235;
+  --ua-card-hover: #1c2a40;
+  --ua-border: #263449;
+  --ua-text: #f1f5f9;
+  --ua-text-muted: #94a3b8;
+  --ua-primary: #38bdf8;
+  --ua-primary-foreground: #0b1120;
+  --ua-secondary: #14b8a6;
+  --ua-warning: #f59e0b;
+  --ua-danger: #ef4444;
+  /* Lighter tint of danger for small text on cards (WCAG AA). */
+  --ua-danger-text: #f87171;
+  --ua-success: #22c55e;
+  --ua-ring: #38bdf8;
+  --ua-radius: 0.75rem;
+  color-scheme: dark;
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-background: var(--ua-bg);
+  --color-background-subtle: var(--ua-bg-subtle);
+  --color-card: var(--ua-card);
+  --color-card-hover: var(--ua-card-hover);
+  --color-border: var(--ua-border);
+  --color-foreground: var(--ua-text);
+  --color-muted: var(--ua-text-muted);
+  --color-primary: var(--ua-primary);
+  --color-primary-foreground: var(--ua-primary-foreground);
+  --color-secondary: var(--ua-secondary);
+  --color-warning: var(--ua-warning);
+  --color-danger: var(--ua-danger);
+  --color-danger-text: var(--ua-danger-text);
+  --color-success: var(--ua-success);
+  --color-ring: var(--ua-ring);
+
+  --radius-card: var(--ua-radius);
+
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-jetbrains), ui-monospace, monospace;
+
+  --text-xs: 0.75rem;
+  --text-sm: 0.875rem;
+  --text-base: 1rem;
+  --text-lg: 1.125rem;
+  --text-xl: 1.25rem;
+  --text-2xl: 1.5rem;
+  --text-3xl: 1.875rem;
+
+  --container-reading: 45rem;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+@layer base {
+  * {
+    border-color: var(--ua-border);
+  }
+  html {
+    -webkit-text-size-adjust: 100%;
+  }
+  body {
+    background: var(--ua-bg);
+    color: var(--ua-text);
+    font-family: var(--font-sans);
+    line-height: 1.6;
+  }
+  :focus-visible {
+    outline: 2px solid var(--ua-ring);
+    outline-offset: 2px;
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    transition-duration: 0ms !important;
+    animation-duration: 0ms !important;
+  }
+}
+
+/* Print: white paper, dark text, no navigation chrome. */
+@media print {
+  :root {
+    --ua-bg: #ffffff;
+    --ua-bg-subtle: #ffffff;
+    --ua-card: #ffffff;
+    --ua-border: #cbd5e1;
+    --ua-text: #0f172a;
+    --ua-text-muted: #475569;
+    color-scheme: light;
+  }
+  .no-print {
+    display: none !important;
+  }
 }

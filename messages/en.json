@@ -1,0 +1,146 @@
+{
+  "meta": {
+    "appName": "UROANDROLOGY",
+    "appTagline": "Clinical Companion",
+    "description": "Clinical reference and decision-support workspace for urologists and andrologists."
+  },
+  "nav": {
+    "main": "Main navigation",
+    "dashboard": "Dashboard",
+    "modules": "Clinical modules",
+    "modulesShort": "Modules",
+    "tools": "Clinical tools",
+    "algorithms": "Algorithms",
+    "guidelines": "Guidelines",
+    "cases": "Clinical cases",
+    "settings": "Settings",
+    "search": "Search",
+    "more": "More",
+    "soon": "Soon",
+    "plannedFor": "Planned for phase {phase}",
+    "collapse": "Collapse sidebar",
+    "expand": "Expand sidebar",
+    "openMenu": "Open menu",
+    "closeMenu": "Close menu",
+    "skipToContent": "Skip to content"
+  },
+  "language": {
+    "label": "Language",
+    "uz": "Oʻzbekcha",
+    "en": "English",
+    "ru": "Русский"
+  },
+  "search": {
+    "placeholder": "Search topics, modules, sections…",
+    "open": "Open search",
+    "shortcut": "Ctrl K",
+    "noResults": "No results for “{query}”",
+    "hint": "Type to search modules and sections.",
+    "close": "Close search",
+    "categoryModule": "Module",
+    "categorySection": "Section",
+    "scopeNote": "Search currently covers modules and sections. Topics, lab parameters and guidelines are added in phase 5."
+  },
+  "dashboard": {
+    "title": "Dashboard",
+    "welcome": "Welcome to the Clinical Companion",
+    "welcomeText": "Structured clinical reference for urology and andrology. Open a module, search a topic, or continue where you left off.",
+    "modulesTitle": "Clinical modules",
+    "recentTitle": "Recently opened",
+    "recentEmpty": "Modules you open will appear here.",
+    "bookmarksTitle": "Bookmarks",
+    "bookmarksEmpty": "Bookmark a module to keep it here.",
+    "sectionsCount": "{count} sections",
+    "openModule": "Open module",
+    "contentStatusTitle": "Content status",
+    "contentStatusText": "Clinical content is being written and medically reviewed separately. Sections show their review status until approved content is published."
+  },
+  "modules": {
+    "title": "Clinical modules",
+    "intro": "Five independent modules with a consistent structure.",
+    "sectionsTitle": "Sections",
+    "bookmark": "Bookmark",
+    "bookmarked": "Bookmarked",
+    "removeBookmark": "Remove bookmark",
+    "male-infertility": {
+      "title": "Male Infertility",
+      "description": "History, examination, semen analysis, hormonal and genetic evaluation, diagnostic pathway and treatment."
+    },
+    "erectile-dysfunction": {
+      "title": "Erectile Dysfunction",
+      "description": "Classification, anamnesis, cardiovascular risk, laboratory work-up, IIEF-5 and treatment options."
+    },
+    "premature-ejaculation": {
+      "title": "Premature Ejaculation",
+      "description": "Lifelong and acquired forms, diagnostic criteria, IELT, PEDT and evidence-based treatment."
+    },
+    "hypogonadism": {
+      "title": "Male Hypogonadism",
+      "description": "Primary and secondary forms, hormonal diagnostics, treatment decisions and fertility implications."
+    },
+    "clinical-assessment": {
+      "title": "Clinical Assessment",
+      "description": "Integrated workflow: initial assessment, examination, test selection, decision trees and referral."
+    }
+  },
+  "sections": {
+    "definition-classification": "Definition and classification",
+    "definition": "Definition",
+    "classification": "Classification",
+    "epidemiology": "Epidemiology",
+    "etiology": "Etiology",
+    "pathophysiology": "Pathophysiology",
+    "medical-history": "Detailed medical history",
+    "history": "Medical history",
+    "physical-examination": "Physical examination",
+    "semen-analysis": "Semen analysis",
+    "hormonal-assessment": "Hormonal assessment",
+    "genetic-testing": "Genetic testing",
+    "imaging": "Imaging and instrumental diagnostics",
+    "differential-diagnosis": "Differential diagnosis",
+    "treatment": "Treatment",
+    "follow-up": "Follow-up and monitoring",
+    "clinical-cases": "Clinical cases",
+    "references": "References",
+    "cardiovascular-risk": "Cardiovascular risk assessment",
+    "laboratory-diagnostics": "Laboratory diagnostics",
+    "lifelong-acquired": "Lifelong and acquired premature ejaculation",
+    "diagnostic-criteria": "Diagnostic criteria",
+    "pedt": "PEDT questionnaire",
+    "primary": "Primary hypogonadism",
+    "secondary": "Secondary hypogonadism",
+    "clinical-symptoms": "Clinical symptoms",
+    "hormonal-diagnostics": "Hormonal diagnostics",
+    "initial-assessment": "Initial patient assessment",
+    "anamnesis-workflow": "Anamnesis workflow",
+    "physical-examination-checklist": "Physical examination checklist",
+    "laboratory-selection": "Laboratory test selection",
+    "decision-trees": "Diagnostic decision trees",
+    "referral-criteria": "Referral criteria",
+    "follow-up-planning": "Follow-up planning"
+  },
+  "status": {
+    "pendingReview": "Pending medical review",
+    "pendingReviewText": "This section has no approved content yet. It will be published after review by a qualified physician, with sources and version.",
+    "moduleStatus": "Module content: pending medical review",
+    "version": "Version",
+    "notPublished": "not yet published"
+  },
+  "settings": {
+    "title": "Settings",
+    "languageTitle": "Interface language",
+    "languageText": "Clinical content is published separately for each language after verified translation.",
+    "dataTitle": "Data stored in this browser",
+    "dataText": "Only bookmarks, recently opened modules and the sidebar state are stored in this browser. No patient data is stored.",
+    "clearRecent": "Clear recently opened",
+    "clearBookmarks": "Clear bookmarks",
+    "cleared": "Cleared"
+  },
+  "disclaimer": {
+    "short": "For qualified healthcare professionals. Educational and reference use only; not a substitute for clinical judgement. No diagnosis or prescribing is made by this platform."
+  },
+  "notFound": {
+    "title": "Page not found",
+    "back": "Back to dashboard"
+  }
+}

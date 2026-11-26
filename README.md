@@ -1,36 +1,60 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# UROANDROLOGY — Clinical Companion
 
-## Getting Started
+Clinical reference and decision-support workspace for urologists and andrologists.
+Next.js (App Router) · TypeScript · Tailwind CSS v4 · shadcn/ui conventions · Lucide icons.
 
-First, run the development server:
+> For qualified healthcare professionals. Educational and reference use only. The platform
+> makes no diagnosis and no prescribing decisions.
+
+## Getting started
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+pnpm install
+pnpm dev          # http://localhost:3000 → redirects to /uz/dashboard
+pnpm lint
+pnpm typecheck
+pnpm build && pnpm start
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Requires Node.js 22+ and pnpm 10.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Languages
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Interface text lives only in `messages/uz.json`, `messages/en.json`, `messages/ru.json`
+(Uzbek is the default, Latin script with `ʻ` U+02BB). Keys are type-checked: a missing or
+misspelled key fails `pnpm typecheck`. Every route sits under `app/[locale]/`; `proxy.ts`
+adds the locale prefix (cookie, then browser language, then `uz`).
 
-## Learn More
+Clinical content is **not** stored in the message files. It is published per language
+through the reviewed content system (phase 2). Machine translation is not accepted.
 
-To learn more about Next.js, take a look at the following resources:
+## Project structure
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```
+app/[locale]/          routes: dashboard, modules, modules/[module], settings
+components/            layout, navigation, dashboard, clinical, common, ui
+lib/                   i18n, clinical (module registry), search, storage
+messages/              uz.json en.json ru.json  (interface text)
+types/clinical/        shared clinical types
+content/               reviewed clinical content (from phase 2)
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Data and privacy
 
-## Deploy on Vercel
+Only non-clinical preferences are kept in the browser (bookmarks, recently opened modules,
+sidebar state). No patient data is stored, and nothing is sent to external services.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Deployment (Vercel)
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+1. Import the GitHub repository in Vercel (framework preset: Next.js, package manager: pnpm).
+2. No environment variables are needed for phase 1.
+3. Every pull request gets a preview deployment; `main` deploys to production.
+
+## Roadmap
+
+1. **Foundation**: design system, layout, dashboard, three languages ✅
+2. Content system and Male infertility module
+3. Remaining four modules
+4. Anamnesis forms, calculators, diagnostic algorithms
+5. Guidelines library, clinical cases, search and bookmarks
+6. Testing, mobile optimisation, security review, production deploy
