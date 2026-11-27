@@ -58,6 +58,20 @@ Search runs entirely in the browser. No patient data is stored, and nothing is s
    (preview deployments do this automatically).
 3. Every pull request gets a preview deployment; `main` deploys to production.
 
+## Telegram Mini App
+
+The same site runs as a Telegram Mini App. `components/telegram/telegram-bridge.tsx` loads the
+Telegram SDK only when the page is opened from Telegram (launch parameters in the URL fragment), then
+sets the dark header and background colours, shows the native back button, disables swipe-to-close
+while scrolling, opens external links in Telegram's browser, hides print buttons and follows the
+Telegram interface language on first open. Outside Telegram nothing is loaded. No Telegram user
+data is stored or sent anywhere, so no bot backend or init-data validation is needed.
+
+Setup in @BotFather: `/newbot` creates the bot; then `/mybots` → the bot → Bot Settings →
+Configure Mini App → Enable Mini App, URL `https://uroandrology.vercel.app/uz/dashboard`
+(this also adds the "Open" button in the bot profile). Optionally Bot Settings → Menu Button
+with the same URL.
+
 ## Roadmap
 
 1. **Foundation**: design system, layout, dashboard, three languages ✅
@@ -66,4 +80,4 @@ Search runs entirely in the browser. No patient data is stored, and nothing is s
 4. Anamnesis forms, calculators, diagnostic algorithms ✅
 5. Guidelines library, clinical cases, search and bookmarks ✅
 6. Testing, mobile optimisation, security review, production deploy
-7. Telegram Mini App
+7. Telegram Mini App ✅

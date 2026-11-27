@@ -233,7 +233,7 @@ function Summary({ template, answers, onEdit }: { template: TemplateId; answers:
     <article className="space-y-5">
       <div className="no-print flex flex-wrap gap-2">
         <Button variant="secondary" size="sm" onClick={onEdit}><Pencil aria-hidden="true" />{t("assessment.edit")}</Button>
-        <Button variant="secondary" size="sm" onClick={() => window.print()}><Printer aria-hidden="true" />{t("assessment.print")}</Button>
+        <Button variant="secondary" size="sm" className="tg-hide" onClick={() => window.print()}><Printer aria-hidden="true" />{t("assessment.print")}</Button>
         <Button
           variant="secondary"
           size="sm"

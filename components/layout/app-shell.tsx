@@ -9,6 +9,7 @@ import { SearchIndexProvider } from "@/lib/search/context";
 import type { ExtraSearchItem } from "@/lib/search/index";
 import { migrateLegacyPrefs } from "@/lib/storage/migrate";
 import { useSidebarCollapsed } from "@/lib/storage/user-prefs";
+import { TelegramBridge } from "@/components/telegram/telegram-bridge";
 import { Header } from "./header";
 import { MobileDrawer } from "./mobile-drawer";
 
@@ -51,6 +52,7 @@ export function AppShell({ children, searchExtras }: { children: ReactNode; sear
       <BottomNav onSearch={() => setSearchOpen(true)} onMenu={() => setMenuOpen(true)} />
       <MobileDrawer open={menuOpen} onClose={() => setMenuOpen(false)} />
       <SearchDialog open={searchOpen} onClose={() => setSearchOpen(false)} />
+      <TelegramBridge />
     </div>
     </SearchIndexProvider>
   );
